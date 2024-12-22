@@ -1,5 +1,6 @@
 {
   "dependencies": {
+<<<<<<< Updated upstream
     "com.unity.2d.animation": {
       "version": "5.0.10",
       "depth": 0,
@@ -72,6 +73,8 @@
       "source": "builtin",
       "dependencies": {}
     },
+=======
+>>>>>>> Stashed changes
     "com.unity.collab-proxy": {
       "version": "1.15.7",
       "depth": 0,
@@ -114,6 +117,7 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+<<<<<<< Updated upstream
     "com.unity.mathematics": {
       "version": "1.1.0",
       "depth": 1,
@@ -121,6 +125,8 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+=======
+>>>>>>> Stashed changes
     "com.unity.nuget.newtonsoft-json": {
       "version": "2.0.0",
       "depth": 1,
