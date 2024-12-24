@@ -57,7 +57,7 @@ public class SwordAttack : MonoBehaviour
             swingDir = mouseAngle + angleOffset + facingLeftOffset;
 
             //need to negate mouseAngle for facing left again
-            FlipSword();
+            //FlipSword();
 
             transform.localRotation = Quaternion.Euler(0, 0, swingDir);
             SwingSword();
@@ -69,7 +69,7 @@ public class SwordAttack : MonoBehaviour
             angleOffset = angleOffsetAmount;
             Debug.Log("Animation ended");
             hasSwung = true;
-            FlipSword();
+            //FlipSword();
         }
     }
 
