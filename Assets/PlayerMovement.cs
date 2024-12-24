@@ -11,13 +11,14 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask whatIsGround, whatIsWall;
     [HideInInspector] public bool isJumping;
     private bool isLanding;
-    private bool facingRight;
+    public bool facingLeft;
     private bool canWallJump;
 
+    public Transform sword;
     public Transform groundCheck, wallCheck;
     public float wallCheckRadius = 1f;
 
-    private Vector2 move;
+    public Vector2 move;
 
     private float lastPressedJump;
     private float lastGrounded;
@@ -101,11 +102,11 @@ public class PlayerMovement : MonoBehaviour
         flipTimer -= Time.deltaTime;
         if (flipTimer <= 0)
         {
-            if (move.x > 0 && facingRight)
+            if (move.x > 0 && facingLeft)
             {
                 FlipPlayer();
             }
-            else if (move.x < 0 && !facingRight)
+            else if (move.x < 0 && !facingLeft)
             {
                 FlipPlayer();
             }
@@ -152,8 +153,17 @@ public class PlayerMovement : MonoBehaviour
     }
     void FlipPlayer()
     {
-        facingRight = !facingRight;
+        facingLeft = !facingLeft;
+        float prevX = transform.localScale.x;
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+
+        // Reset the sword's local scale to avoid flipping
+        if (sword != null)
+        {
+            // Prevent sword from flipping, just adjust its rotation based on mouse direction
+            sword.localScale = new Vector3(transform.localScale.x, sword.localScale.y, sword.localScale.z);
+        }
+
         flipTimer = flipCooldown;
     }
 }
