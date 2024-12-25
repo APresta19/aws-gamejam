@@ -37,18 +37,20 @@ public class SwordAttack : MonoBehaviour
         Vector3 dir = (player.position - mousePos).normalized;
         //make sure sword follows the right direction when facing right/left
         mouseAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        float swingDir = mouseAngle + angleOffset + facingLeftOffset;
         if(player.GetComponent<PlayerMovement>().facingLeft)
         {
             mouseAngle = -mouseAngle;
             facingLeftOffset = facingLeftOffsetNumber;
+            transform.localRotation = Quaternion.Euler(0, 0, -swingDir);
         }
         else
         {
             facingLeftOffset = 0;
+            transform.localRotation = Quaternion.Euler(0, 0, swingDir);
         }
-        float swingDir = mouseAngle + angleOffset + facingLeftOffset;
         //need to change this line -- only set if not swinging
-        transform.localRotation = Quaternion.Euler(0, 0, swingDir);
+        
         //Debug.Log(swingDir);
         if (Input.GetButtonDown("Fire2") && canSwing < Time.time)
         {
