@@ -36,6 +36,8 @@ public class PlayerMovement : MonoBehaviour
 
     private float flipTimer;
     public float flipCooldown = 0.2f;
+    float smoothedHorizontalInput;
+    public float smoothing = 0.1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -48,7 +50,8 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         move.x = Input.GetAxis("Horizontal");
-        anim.SetFloat("Speed", Mathf.Abs(move.x));
+        smoothedHorizontalInput = Mathf.Lerp(smoothedHorizontalInput, move.x, smoothing);
+        anim.SetFloat("Speed", Mathf.Abs(smoothedHorizontalInput));
 
         if (isGrounded())
         {
@@ -114,10 +117,16 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        float targetSpeed = move.x * moveSpeed;
+        float targetSpeed = smoothedHorizontalInput * moveSpeed;
         float speedDiff = targetSpeed - rb.velocity.x;
         float accRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : decceleration;
         float movement = Mathf.Pow(Mathf.Abs(speedDiff) * accRate, velPower) * Mathf.Sign(speedDiff);
+
+        //clamp movement
+        if (Mathf.Abs(rb.velocity.x) < maxSpeed || Mathf.Sign(rb.velocity.x) != Mathf.Sign(targetSpeed))
+        {
+            rb.AddForce(movement * Vector2.right);
+        }
 
         //wall slide --> falling
         if(move.x != 0 && isWalled() && rb.velocity.y <= 0)
@@ -125,11 +134,7 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -wallVelocity));
         }
 
-        //clamp movement
-        if (Mathf.Abs(rb.velocity.x) < maxSpeed || Mathf.Sign(rb.velocity.x) != Mathf.Sign(targetSpeed))
-        {
-            rb.AddForce(movement * Vector2.right);
-        }
+        
     }
     void Jump()
     {
