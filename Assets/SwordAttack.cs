@@ -69,7 +69,6 @@ public class SwordAttack : MonoBehaviour
         if (!hasSwung && anim.GetCurrentAnimatorStateInfo(0).IsName("Sword_Slash") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= .99f)
         {
             angleOffset = angleOffsetAmount;
-            Debug.Log("Animation ended");
             hasSwung = true;
             //FlipSword();
         }
