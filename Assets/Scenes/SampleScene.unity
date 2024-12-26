@@ -297,6 +297,9 @@ GameObject:
 =======
   - component: {fileID: 148371176}
   - component: {fileID: 289628224}
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   m_Layer: 0
   m_Name: Player
@@ -642,10 +645,26 @@ BoxCollider2D:
   m_Size: {x: 0.84, y: 1.04}
   m_EdgeRadius: 0
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 --- !u!43 &185490365
 Mesh:
 =======
 --- !u!114 &148371176
+=======
+--- !u!114 &148371176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148371165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &289628224
+>>>>>>> Stashed changes
 MonoBehaviour:
 >>>>>>> Stashed changes
   m_ObjectHideFlags: 0
@@ -658,6 +677,7 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
 --- !u!114 &289628224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -860,6 +880,9 @@ Transform:
   m_Script: {fileID: 11500000, guid: ec8f813a1d79a4446b75193b494d915b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
+>>>>>>> Stashed changes
+=======
   maxHealth: 100
 >>>>>>> Stashed changes
 --- !u!1 &317391433
@@ -3573,7 +3596,10 @@ Transform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 --- !u!1 &1912683767
 GameObject:
   m_ObjectHideFlags: 0
@@ -3944,6 +3970,9 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1915857859}
   m_Mesh: {fileID: 686060503}
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 --- !u!1 &2068511077
 GameObject:
