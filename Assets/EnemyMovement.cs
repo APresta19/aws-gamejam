@@ -1,7 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyMovement : MonoBehaviour
 {
     public Transform[] patrolPoints;    // Array of patrol waypoints
     public Transform player;           // Reference to the player
@@ -23,7 +25,7 @@ public class EnemyAI : MonoBehaviour
     {
         // Initialize the NavMeshAgent, Animator, and patrol settings
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
         currentPatrolIndex = 0;
         currentState = EnemyState.Patrolling;
 
@@ -90,8 +92,8 @@ public class EnemyAI : MonoBehaviour
 
         // Set a slower movement speed during patrol
         agent.speed = 3f;
-        animator.SetBool("isWalking", true);
-        animator.SetBool("isRunning", false);
+        //animator.SetBool("isWalking", true);
+        //animator.SetBool("isRunning", false);
     }
 
     void ChasePlayer()
@@ -115,7 +117,7 @@ public class EnemyAI : MonoBehaviour
         // Check attack cooldown
         if (Time.time >= lastAttackTime + attackCooldown)
         {
-            animator.SetTrigger("Attack"); // Trigger attack animation
+            //animator.SetTrigger("Attack"); // Trigger attack animation
             lastAttackTime = Time.time;
         }
     }
