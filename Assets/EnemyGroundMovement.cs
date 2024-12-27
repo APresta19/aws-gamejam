@@ -27,6 +27,7 @@ public class EnemyGroundMovement : MonoBehaviour
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         currentPatrolIndex = 0;
         currentState = EnemyState.Patrolling;
     }
@@ -83,9 +84,12 @@ public class EnemyGroundMovement : MonoBehaviour
             isWaiting = true;
         }
 
-        transform.position = Vector2.MoveTowards(transform.position, new Vector2(patrolXPoints[currentPatrolIndex], transform.position.y), patrolSpeed * Time.deltaTime);
-        //animator.SetBool("isWalking", true);
-        //animator.SetBool("isRunning", false);
+        if (!isWaiting)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(patrolXPoints[currentPatrolIndex], transform.position.y), patrolSpeed * Time.deltaTime);
+            animator.SetBool("isWalking", true);
+            //animator.SetBool("isRunning", false);
+        }
     }
 
     void ChasePlayer()
@@ -93,19 +97,30 @@ public class EnemyGroundMovement : MonoBehaviour
         // Set the player's position as the destination
         transform.position = Vector2.MoveTowards(transform.position, player.position, attackSpeed * Time.deltaTime);
         //animator.SetBool("isWalking", false);
-        // animator.SetBool("isRunning", true);
+        //animator.SetBool("isRunning", true);
     }
 
     void AttackPlayer()
     {
-        // Face the player
-        Vector3 direction = (player.position - transform.position).normalized;
-        transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
+        // Determine the horizontal direction to the player
+        float direction = player.position.x - transform.position.x;
+
+        // Flip the enemy to face the player
+        if (direction > 0)
+        {
+            // Face right
+            transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+        }
+        else if (direction < 0)
+        {
+            // Face left
+            transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+        }
 
         // Check attack cooldown
         if (Time.time >= lastAttackTime + attackCooldown)
         {
-            //animator.SetTrigger("Attack"); // Trigger attack animation
+            // animator.SetTrigger("Attack"); // Trigger attack animation
             lastAttackTime = Time.time;
         }
     }
@@ -127,6 +142,7 @@ public class EnemyGroundMovement : MonoBehaviour
     }
     IEnumerator WaitUntilNextWaypoint()
     {
+        animator.SetBool("isWalking", false);
         yield return new WaitForSeconds(waitTime);
         currentPatrolIndex++;
         if (currentPatrolIndex >= patrolXPoints.Length)
