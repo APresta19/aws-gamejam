@@ -8,14 +8,16 @@ public class EnemyGroundMovement : MonoBehaviour
     public float[] patrolXPoints;   // Array of patrol points
     public Transform player;           // Reference to the player
     public LayerMask whatIsGround;     // Layer mask to identify ground
+    public LayerMask whatIsPlayer;
     public float detectionRange = 10f; // Range to detect the player
     public float attackRange = 2f;     // Range to attack the player
     public int attackDamage = 10;      // Damage dealt to the player
     public float attackCooldown = 1f; // Time between attacks
     public float patrolSpeed = 5f;     //patrol of enemy
-    public float attackSpeed = 10f;
+    public float attackWalkSpeed = 10f;
     public float waitTime = 1f;        //time waiting between patrol points
     private bool isWaiting = false;
+    public bool isPlayerVisible;
 
     private NavMeshAgent agent;        // NavMeshAgent for enemy movement
     private Animator animator;         // Animator for enemy animations
@@ -39,8 +41,8 @@ public class EnemyGroundMovement : MonoBehaviour
 
         // Perform a raycast to check if the player is visible
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayer, detectionRange, whatIsGround);
-        bool isPlayerVisible = hit.collider == null || hit.collider.gameObject == player.gameObject;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayer, detectionRange, whatIsPlayer);
+        isPlayerVisible = hit.collider != null && hit.collider.gameObject == player.gameObject;
 
         // Update the enemy's state based on visibility and distance
         if (isPlayerVisible)
@@ -95,7 +97,7 @@ public class EnemyGroundMovement : MonoBehaviour
     void ChasePlayer()
     {
         // Set the player's position as the destination
-        transform.position = Vector2.MoveTowards(transform.position, player.position, attackSpeed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, player.position, attackWalkSpeed * Time.deltaTime);
         //animator.SetBool("isWalking", false);
         //animator.SetBool("isRunning", true);
     }

@@ -250,13 +250,17 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 0
   detectionRange: 5
   attackRange: 2
   attackDamage: 10
   attackCooldown: 1
   patrolSpeed: 5
-  attackSpeed: 10
+  attackWalkSpeed: 10
   waitTime: 1
+  isPlayerVisible: 0
 --- !u!58 &1029504
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -640,7 +644,7 @@ GameObject:
   - component: {fileID: 148371174}
   - component: {fileID: 148371175}
   - component: {fileID: 289628224}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -2249,13 +2253,17 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 128
   detectionRange: 4
   attackRange: 2
   attackDamage: 10
   attackCooldown: 1
-  patrolSpeed: 5
-  attackSpeed: 10
+  patrolSpeed: 2
+  attackWalkSpeed: 3
   waitTime: 1
+  isPlayerVisible: 0
 --- !u!95 &829133843
 Animator:
   serializedVersion: 3
