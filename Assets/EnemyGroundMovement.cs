@@ -8,7 +8,6 @@ public class EnemyGroundMovement : MonoBehaviour
     public float[] patrolXPoints;   // Array of patrol points
     public Transform player;           // Reference to the player
     public LayerMask whatIsGround;     // Layer mask to identify ground
-    public LayerMask whatIsPlayer;
     public float detectionRange = 10f; // Range to detect the player
     public float attackRange = 2f;     // Range to attack the player
     public int attackDamage = 10;      // Damage dealt to the player
@@ -41,7 +40,7 @@ public class EnemyGroundMovement : MonoBehaviour
 
         // Perform a raycast to check if the player is visible
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayer, detectionRange, whatIsPlayer);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayer, detectionRange, whatIsGround);
         isPlayerVisible = hit.collider != null && hit.collider.gameObject == player.gameObject;
 
         // Update the enemy's state based on visibility and distance
