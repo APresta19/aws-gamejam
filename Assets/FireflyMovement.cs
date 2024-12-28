@@ -20,7 +20,7 @@ public class FireflyMovement : MonoBehaviour
         float desiredY = transform.position.y + verticalMove;
         float camHeight = 2f * cam.orthographicSize;
         float camWidth = camHeight * cam.aspect;
-        if (transform.position.x < (cam.transform.position.x - camWidth / 2) - 2)
+        if (transform.position.x < (cam.transform.position.x - camWidth / 2) - destructionMargin)
         {
             Destroy(this.gameObject);
         }
