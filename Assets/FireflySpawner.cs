@@ -39,15 +39,18 @@ public class FireflySpawner : MonoBehaviour
     {
         while (true)
         {
+            // Get the current number of fireflies in the scene
             amountInScene = GameObject.FindGameObjectsWithTag("Firefly").Length;
             if (amountInScene >= fireflyLimit)
             {
                 yield return null;
                 continue;
             }
+
+            // Wait for the specified spawn time
             yield return new WaitForSeconds(spawnTime);
 
-            // Calculate random position within bounds
+            // Calculate random position within camera bounds
             float randX = Random.Range(cam.transform.position.x + camWidth / 2, cam.transform.position.x + camWidth / 2 + horizontalEndPoint);
             float randY = Random.Range(cam.transform.position.y - camHeight / 2, cam.transform.position.y + camHeight / 2);
             Vector2 randomPosition = new Vector2(randX, randY);
