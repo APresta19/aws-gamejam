@@ -12,6 +12,10 @@ public class FireflySpawner : MonoBehaviour
     public float spawnTime = 2f;
     private int amountInScene;
 
+    // New variables for camera bounds
+    private float camHeight;
+    private float camWidth;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +27,10 @@ public class FireflySpawner : MonoBehaviour
             Debug.LogError("Main Camera not found!");
             return;
         }
+
+        // Calculate camera bounds once
+        camHeight = 2f * cam.orthographicSize;
+        camWidth = camHeight * cam.aspect;
 
         StartCoroutine(SpawnFireflies());
     }
@@ -38,8 +46,6 @@ public class FireflySpawner : MonoBehaviour
                 continue;
             }
             yield return new WaitForSeconds(spawnTime);
-            float camHeight = 2f * cam.orthographicSize; // orthographic size is half
-            float camWidth = camHeight * cam.aspect; // aspect is width / height so results in width
 
             // Calculate random position within bounds
             float randX = Random.Range(cam.transform.position.x + camWidth / 2, cam.transform.position.x + camWidth / 2 + horizontalEndPoint);
