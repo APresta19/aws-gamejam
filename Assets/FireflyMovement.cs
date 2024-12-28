@@ -16,8 +16,8 @@ public class FireflyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float desiredY = desiredY = transform.position.y + verticalMove;
         transform.position -= new Vector3(speed * Time.deltaTime, 0, 0);
-        float desiredY = transform.position.y + verticalMove;
         float camHeight = 2f * cam.orthographicSize;
         float camWidth = camHeight * cam.aspect;
         if (transform.position.x < (cam.transform.position.x - camWidth / 2) - 2)

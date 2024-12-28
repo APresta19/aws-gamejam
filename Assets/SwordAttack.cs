@@ -12,8 +12,10 @@ public class SwordAttack : MonoBehaviour
     private float canSwing;
     public float canSwingTime = 0.5f;
     public float swingRadius = 1f;
-    public Vector3 hitPointOffset;
+    public Transform hitPoint;
 
+    public int swordDamage;
+    public float knockbackAmount = 5;
     private float angleOffset; //adjusts the direction of the sword based on mouse pos
     public float angleOffsetAmount = 90f; //starting sword direction
     private float facingLeftOffset; //facing left needs some adjustment
@@ -82,13 +84,18 @@ public class SwordAttack : MonoBehaviour
         anim.SetTrigger("Swing");
 
         // Detect enemies in range at the start of the swing
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position + hitPointOffset, swingRadius);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(hitPoint.position, swingRadius);
         foreach (Collider2D enemy in hitEnemies)
         {
             if (enemy.CompareTag("Enemy"))
             {
-                Debug.Log("Hit: " + enemy.name);
                 // Damage the enemy
+                enemy.GetComponent<EnemyHealth>().TakeDamage(swordDamage);
+
+                //knockback enemy based on mouse direction
+                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector3 knockbackDir = (mousePos - enemy.transform.position).normalized;
+                enemy.GetComponent<EnemyHealth>().Knockback(knockbackDir, knockbackAmount);
             }
         }
 
@@ -122,6 +129,6 @@ public class SwordAttack : MonoBehaviour
     {
         // Visualize the sword's hit range in the editor
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + hitPointOffset, swingRadius);
+        Gizmos.DrawWireSphere(hitPoint.position, swingRadius);
     }
 }
