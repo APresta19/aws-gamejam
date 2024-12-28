@@ -11,12 +11,22 @@ public class FireflySpawner : MonoBehaviour
     public float horizontalEndPoint = 2f;
     public float spawnTime = 2f;
     private int amountInScene;
+
     // Start is called before the first frame update
     void Start()
     {
         cam = Camera.main;
+
+        // Ensure Camera.main is assigned correctly
+        if (cam == null)
+        {
+            Debug.LogError("Main Camera not found!");
+            return;
+        }
+
         StartCoroutine(SpawnFireflies());
     }
+
     IEnumerator SpawnFireflies()
     {
         while (true)
@@ -28,8 +38,8 @@ public class FireflySpawner : MonoBehaviour
                 continue;
             }
             yield return new WaitForSeconds(spawnTime);
-            float camHeight = 2f * cam.orthographicSize; //orthographic size is half
-            float camWidth = camHeight * cam.aspect; //aspect is width / height so results in width
+            float camHeight = 2f * cam.orthographicSize; // orthographic size is half
+            float camWidth = camHeight * cam.aspect; // aspect is width / height so results in width
 
             // Calculate random position within bounds
             float randX = Random.Range(cam.transform.position.x + camWidth / 2, cam.transform.position.x + camWidth / 2 + horizontalEndPoint);
@@ -37,7 +47,7 @@ public class FireflySpawner : MonoBehaviour
             Vector2 randomPosition = new Vector2(randX, randY);
             GameObject firefly = Instantiate(fireflyPrefab, randomPosition, Quaternion.identity, transform);
 
-            //make random color
+            // Make random color
             SpriteRenderer sr = firefly.GetComponent<SpriteRenderer>();
             if (sr != null)
             {
