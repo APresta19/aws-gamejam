@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Grapple : MonoBehaviour
 {
+    private Camera cam;
     private Rigidbody2D rb;
     public LayerMask whatIsGrapple;
     public LineRenderer lineRenderer;
@@ -23,6 +24,7 @@ public class Grapple : MonoBehaviour
 
     private void Start()
     {
+        cam = Camera.main;
         rb = GetComponent<Rigidbody2D>();
         playerMovement = GetComponent<PlayerMovement>();
     }
@@ -38,6 +40,7 @@ public class Grapple : MonoBehaviour
             lineRenderer.enabled = false;
             isGrappling = false;
         }
+        ClampCameraToBounds();
     }
     void GrappleShoot()
     {
@@ -86,5 +89,27 @@ public class Grapple : MonoBehaviour
             playerMovement.anim.SetBool("isJumping", true);
             playerMovement.isJumping = true;
         }
+
+        
+    }
+    void ClampCameraToBounds()
+    {
+        //calculate camera bounds
+        float cameraHalfWidth = cam.orthographicSize * cam.aspect;
+        float cameraHalfHeight = cam.orthographicSize;
+
+        //set bounds (1 for offset)
+        float leftBound = cam.transform.position.x - cameraHalfWidth + 1;
+        float rightBound = cam.transform.position.x + cameraHalfWidth - 1;
+        float bottomBound = cam.transform.position.y - cameraHalfHeight + 1;
+        float topBound = cam.transform.position.y + cameraHalfHeight - 1;
+
+        //clamp the player's position within bounds
+        Vector3 clampedPosition = rb.position;
+        clampedPosition.x = Mathf.Clamp(clampedPosition.x, leftBound, rightBound);
+        clampedPosition.y = Mathf.Clamp(clampedPosition.y, bottomBound, topBound);
+
+        //update Rigidbody position
+        rb.position = clampedPosition;
     }
 }
