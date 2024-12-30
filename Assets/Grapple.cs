@@ -21,6 +21,8 @@ public class Grapple : MonoBehaviour
     public float grappleForce = 10f;
 
     private bool isGrappling;
+    private bool isDoingLine;
+    public float duration = 0.2f;
 
     private void Start()
     {
@@ -53,7 +55,7 @@ public class Grapple : MonoBehaviour
 
         //shoot ray in that direction
         RaycastHit2D hitInfo = Physics2D.Raycast(firePoint.position, dir, grappleRange, whatIsGrapple);
-        if(hitInfo)
+        if (hitInfo)
         {
             //hit something
             grapplePoint = hitInfo.point;
@@ -64,15 +66,54 @@ public class Grapple : MonoBehaviour
             clip.Play();
 
             isGrappling = true;
+            DoLine(true);
         }
         else
         {
-            //dont hit something, still want to fire a line
-            lineRenderer.SetPosition(0, firePoint.position);
-            lineRenderer.SetPosition(1, firePoint.position + dir * 100f);
+            DoLine();
+        }
+    }
+    public void DoLine(bool isGrappling = false)
+    {
+        if (!isDoingLine)
+        {
+            lineRenderer.enabled = true;
+            StartCoroutine(LineRoutine(isGrappling));
+        }
+    }
+
+    IEnumerator LineRoutine(bool isGrappling)
+    {
+        isDoingLine = true;
+
+        lineRenderer.SetPosition(0, firePoint.position);
+
+        float timePassed = 0f;
+        while (timePassed < duration)
+        {
+            float factor = timePassed / duration;
+            // optionally add ease-in ease-out
+            //factor = Mathf.SmoothStep(0, 1, factor);
+            if(!isGrappling)
+                lineRenderer.SetPosition(1, Vector3.Lerp(firePoint.position, firePoint.position + dir * grappleRange, factor));
+            else
+                lineRenderer.SetPosition(1, Vector3.Lerp(firePoint.position, grapplePoint, factor));
+            //timePassed += Mathf.Min(Time.deltaTime, duration - timePassed);
+            timePassed += Time.deltaTime;
+            yield return null;
         }
 
-        lineRenderer.enabled = true;
+        if (isGrappling)
+        {
+            lineRenderer.SetPosition(1, grapplePoint);
+        }
+        else
+        {
+            lineRenderer.SetPosition(1, firePoint.position + dir * grappleRange);
+            lineRenderer.enabled = false; // Disable if not grappling
+        }
+
+        isDoingLine = false;
     }
     void FixedUpdate()
     {

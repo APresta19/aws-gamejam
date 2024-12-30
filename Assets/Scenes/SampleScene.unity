@@ -1310,8 +1310,9 @@ MonoBehaviour:
   - 0.8
   - 0.7
   firePoint: {fileID: 1471820934}
-  grappleRange: 20
+  grappleRange: 8
   grappleForce: 50
+  duration: 0.1
 --- !u!82 &148371174
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1324,7 +1325,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c9a465c4a10f0cd4fa0aa40e06348de3, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
