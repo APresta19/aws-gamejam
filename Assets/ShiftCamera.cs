@@ -65,17 +65,17 @@ public class ShiftCamera : MonoBehaviour
             Gizmos.color = Color.blue;
             float camHeight = 2f * cam.orthographicSize;
             float camWidth = camHeight * cam.aspect;
-            Vector3 desiredPos = new Vector3(transform.position.x + camWidth, cam.transform.position.y, cam.transform.position.z);
+            Vector3 desiredPos = new Vector3(transform.position.x + camWidth, transform.position.y, cam.transform.position.z);
             Gizmos.DrawWireSphere(desiredPos, 0.5f);
         }
         else
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, 0.5f);
+
             Gizmos.color = Color.blue;
             float camHeight = 2f * cam.orthographicSize;
-            float camWidth = camHeight * cam.aspect;
-            Vector3 desiredPos = new Vector3(cam.transform.position.x, transform.position.y + camHeight, cam.transform.position.z);
+            Vector3 desiredPos = new Vector3(transform.position.x, transform.position.y + camHeight, cam.transform.position.z);
             Gizmos.DrawWireSphere(desiredPos, 0.5f);
         }
         
