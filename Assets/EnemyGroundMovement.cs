@@ -22,13 +22,15 @@ public class EnemyGroundMovement : MonoBehaviour
     private Animator animator;         // Animator for enemy animations
     private int currentPatrolIndex;    // Current patrol waypoint index
     private float lastAttackTime;      // Time since the last attack
+    private EnemyHealth stats;
 
-    private enum EnemyState { Patrolling, Chasing, Attacking }
+    private enum EnemyState { Patrolling, Chasing, Attacking, Knocked }
     private EnemyState currentState;   // Current state of the enemy
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        stats = GetComponent<EnemyHealth>();
         currentPatrolIndex = 0;
         currentState = EnemyState.Patrolling;
     }
@@ -44,7 +46,7 @@ public class EnemyGroundMovement : MonoBehaviour
         isPlayerVisible = hit.collider != null && hit.collider.gameObject == player.gameObject;
 
         // Update the enemy's state based on visibility and distance
-        if (isPlayerVisible)
+        if (isPlayerVisible && !stats.isGettingKnocked)
         {
             if (distanceToPlayer <= attackRange)
             {
@@ -55,9 +57,13 @@ public class EnemyGroundMovement : MonoBehaviour
                 currentState = EnemyState.Chasing;
             }
         }
-        else
+        else if (!isPlayerVisible && !stats.isGettingKnocked)
         {
             currentState = EnemyState.Patrolling;
+        }
+        else
+        {
+            currentState = EnemyState.Knocked;
         }
 
         // Perform actions based on the current state

@@ -14,6 +14,8 @@ public class SwordAttack : MonoBehaviour
     public float swingRadius = 1f;
     public Vector3 hitPointOffset;
 
+    public int swordDamage;
+    public float knockbackAmount = 5;
     private float angleOffset; //adjusts the direction of the sword based on mouse pos
     public float angleOffsetAmount = 90f; //starting sword direction
     private float facingLeftOffset; //facing left needs some adjustment
@@ -88,7 +90,14 @@ public class SwordAttack : MonoBehaviour
             if (enemy.CompareTag("Enemy"))
             {
                 Debug.Log("Hit: " + enemy.name);
-                // Damage the enemy
+                //damage the enemy
+                //enemy.GetComponent<EnemyHealth>().TakeDamage(swordDamage);
+
+                //knockback enemy based on mouse direction
+                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector3 knockbackDir = (mousePos - enemy.transform.position).normalized;
+                enemy.GetComponent<EnemyHealth>().Knockback(knockbackDir, knockbackAmount);
+
             }
         }
 
