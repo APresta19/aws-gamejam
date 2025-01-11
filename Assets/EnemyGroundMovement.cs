@@ -17,6 +17,13 @@ public class EnemyGroundMovement : MonoBehaviour
     public float waitTime = 1f;        //time waiting between patrol points
     private bool isWaiting = false;
     public bool isPlayerVisible;
+    public bool isGrounded;
+    private PlayerMovement pMove;
+    public Transform groundCheck;
+    public Transform cameraPoint;
+
+    public Transform firePoint;
+    public GameObject bulletPrefab;
 
     private NavMeshAgent agent;        // NavMeshAgent for enemy movement
     private Animator animator;         // Animator for enemy animations
@@ -29,6 +36,7 @@ public class EnemyGroundMovement : MonoBehaviour
 
     void Start()
     {
+        pMove = GameObject.Find("Player").GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
         stats = GetComponent<EnemyHealth>();
         currentPatrolIndex = 0;
@@ -67,17 +75,26 @@ public class EnemyGroundMovement : MonoBehaviour
         }
 
         // Perform actions based on the current state
-        switch (currentState)
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, .2f, whatIsGround);
+        if (isGrounded)
         {
-            case EnemyState.Patrolling:
-                Patrol();
-                break;
-            case EnemyState.Chasing:
-                ChasePlayer();
-                break;
-            case EnemyState.Attacking:
-                AttackPlayer();
-                break;
+            switch (currentState)
+            {
+                case EnemyState.Patrolling:
+                    Patrol();
+                    break;
+                case EnemyState.Chasing:
+                    ChasePlayer();
+                    break;
+                case EnemyState.Attacking:
+                    AttackPlayer();
+                    break;
+            }
+        }
+
+        if(cameraPoint == pMove.currentCameraPoint)
+        {
+            ClampEnemyWithinCameraBounds();
         }
     }
 
@@ -127,7 +144,7 @@ public class EnemyGroundMovement : MonoBehaviour
         // Check attack cooldown
         if (Time.time >= lastAttackTime + attackCooldown)
         {
-            // animator.SetTrigger("Attack"); // Trigger attack animation
+            animator.SetTrigger("Attack"); // Trigger attack animation
             lastAttackTime = Time.time;
         }
     }
@@ -158,6 +175,33 @@ public class EnemyGroundMovement : MonoBehaviour
         }
 
         isWaiting = false;
+    }
+    void ClampEnemyWithinCameraBounds()
+    {
+        //get camera bounds
+        Camera mainCamera = Camera.main;
+        Vector3 minScreenBounds = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, mainCamera.nearClipPlane));
+        Vector3 maxScreenBounds = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, mainCamera.nearClipPlane));
+
+        //clamp the enemy position within bounds
+        Vector3 clampedPosition = transform.position;
+        clampedPosition.x = Mathf.Clamp(clampedPosition.x, minScreenBounds.x, maxScreenBounds.x);
+        clampedPosition.y = Mathf.Clamp(clampedPosition.y, minScreenBounds.y, maxScreenBounds.y);
+
+        transform.position = clampedPosition;
+    }
+    public void SpawnBullet()
+    {
+        Debug.Log("Spawned bullet");
+        Vector3 bulletDirection = (player.position - firePoint.position).normalized;
+        Quaternion bulletRotation = Quaternion.LookRotation(bulletDirection);
+        GameObject bulletInstance = Instantiate(bulletPrefab, firePoint.position, bulletRotation);
+
+        Bullet bulletScript = bulletInstance.GetComponent<Bullet>();
+        if (bulletScript != null)
+        {
+            bulletScript.SetDirection(bulletDirection);
+        }
     }
 
     private void OnDrawGizmosSelected()

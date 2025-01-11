@@ -32,14 +32,12 @@ public class EnemyHealth : MonoBehaviour
     {
         if (isGettingKnocked)
         {
-            anim.SetBool("isKnocked", true);
             rb.gravityScale = knockbackGravity;
             rb.sharedMaterial.bounciness = bounciness;
         }
         else
         {
-            anim.SetBool("isKnocked", false);
-            rb.gravityScale = startingKnockbackGravity;
+            rb.gravityScale = startingKnockbackGravity * 2;
             rb.sharedMaterial.bounciness = startingBounciness;
         }
     }
@@ -55,6 +53,8 @@ public class EnemyHealth : MonoBehaviour
     public void Knockback(Vector3 direction, float force)
     {
         isGettingKnocked = true;
+        anim.ResetTrigger("Attack");
+        anim.SetBool("isKnocked", true);
         //add knockback to enemy
         rb.velocity = Vector2.zero;
         knockbackVelocity = direction * force;
@@ -65,6 +65,7 @@ public class EnemyHealth : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         isGettingKnocked = false;
+        anim.SetBool("isKnocked", false);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

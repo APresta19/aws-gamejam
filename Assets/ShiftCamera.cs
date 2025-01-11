@@ -104,6 +104,7 @@ public class ShiftCamera : MonoBehaviour
             {
                 shouldMove = false;
                 pMove.canMove = true;
+                pMove.currentCameraPoint = transform;
             }
         }
     }
@@ -112,7 +113,6 @@ public class ShiftCamera : MonoBehaviour
     {
         if (other.CompareTag("Player") && !shouldMove)
         {
-            Debug.Log("Should move");
             if (!isGoingBack)
             {
                 lastPos = cam.transform.position;

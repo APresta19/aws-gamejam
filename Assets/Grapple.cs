@@ -9,6 +9,7 @@ public class Grapple : MonoBehaviour
     public LayerMask whatIsGrapple;
     public LineRenderer lineRenderer;
     private PlayerMovement playerMovement;
+    private RaycastHit2D hitInfo;
 
     public AudioSource clip;
     public float[] pitches;
@@ -21,6 +22,7 @@ public class Grapple : MonoBehaviour
     private Vector3 grapplePoint;
     public float grappleRange = 5f;
     public float grappleForce = 10f;
+    public float enemyGrappleForce = 20f;
 
     private bool isGrappling;
     private bool isDoingLine;
@@ -56,7 +58,7 @@ public class Grapple : MonoBehaviour
         dir = (mousePos - firePoint.position).normalized;
 
         //shoot ray in that direction
-        RaycastHit2D hitInfo = Physics2D.Raycast(firePoint.position, dir, grappleRange, whatIsGrapple);
+        hitInfo = Physics2D.Raycast(firePoint.position, dir, grappleRange, whatIsGrapple);
         if (hitInfo && !hitInfo.collider.CompareTag("Spikes"))
         {
             //hit something
@@ -178,11 +180,27 @@ public class Grapple : MonoBehaviour
         {
             //pull player towards grapple point
             //the direction will change so we can't just use the initial direction from before
-            Vector3 currentDir = (grapplePoint - firePoint.position).normalized;
-            rb.AddForce(currentDir * grappleForce, ForceMode2D.Force);
+            Vector3 currentDir;
+            if (hitInfo.collider.CompareTag("Enemy"))
+            {
+                currentDir = (hitInfo.transform.position - firePoint.position).normalized;
+                rb.AddForce(currentDir * enemyGrappleForce, ForceMode2D.Force);
+            }
+            else
+            {
+                currentDir = (grapplePoint - firePoint.position).normalized;
+                rb.AddForce(currentDir * grappleForce, ForceMode2D.Force);
+            }
 
             lineRenderer.SetPosition(0, firePoint.position);
-            lineRenderer.SetPosition(1, grapplePoint);
+            if(hitInfo.collider.CompareTag("Enemy"))
+            {
+                lineRenderer.SetPosition(1, hitInfo.collider.transform.position);
+            }
+            else
+            {
+                lineRenderer.SetPosition(1, grapplePoint);
+            }
 
             playerMovement.anim.SetBool("isJumping", true);
             playerMovement.isJumping = true;

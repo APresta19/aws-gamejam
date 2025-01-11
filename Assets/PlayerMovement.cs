@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
     public SpriteRenderer sr;
 
     public float cameraBlockPlayerDist = 1f;
+    public Transform[] cameraPoints;
+    public Transform currentCameraPoint;
     public LayerMask whatIsGround, whatIsWall;
     [HideInInspector] public bool isJumping;
     private bool isLanding;
@@ -49,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
+        currentCameraPoint = cameraPoints[0];
     }
 
     // Update is called once per frame
