@@ -130,7 +130,7 @@ public class EnemyGroundMovement : MonoBehaviour
         float direction = player.position.x - transform.position.x;
 
         // Flip the enemy to face the player
-        if (direction > 0)
+        /*if (direction > 0)
         {
             // Face right
             transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
@@ -139,7 +139,7 @@ public class EnemyGroundMovement : MonoBehaviour
         {
             // Face left
             transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
-        }
+        }*/
 
         // Check attack cooldown
         if (Time.time >= lastAttackTime + attackCooldown)
@@ -192,9 +192,13 @@ public class EnemyGroundMovement : MonoBehaviour
     }
     public void SpawnBullet()
     {
-        Debug.Log("Spawned bullet");
         Vector3 bulletDirection = (player.position - firePoint.position).normalized;
-        Quaternion bulletRotation = Quaternion.LookRotation(bulletDirection);
+
+        // Calculate 2D rotation
+        float angle = Mathf.Atan2(bulletDirection.y, bulletDirection.x) * Mathf.Rad2Deg;
+        Quaternion bulletRotation = Quaternion.Euler(0, 0, angle);
+
+        // Instantiate bullet with the correct rotation
         GameObject bulletInstance = Instantiate(bulletPrefab, firePoint.position, bulletRotation);
 
         Bullet bulletScript = bulletInstance.GetComponent<Bullet>();

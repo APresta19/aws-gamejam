@@ -1535,7 +1535,7 @@ AnimationClip:
   m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.75
+  - time: 0.9166667
     functionName: SpawnBullet
     data: 
     objectReferenceParameter: {fileID: 0}
