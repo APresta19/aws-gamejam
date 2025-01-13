@@ -24,5 +24,9 @@ public class MainMenu : MonoBehaviour
         optionsMenu.SetActive(false);
         gameObject.SetActive(true);
     }
+    public void PlayAnimation(Animator anim)
+    {
+        anim.SetTrigger("Highlighted");
+    }
     
 }

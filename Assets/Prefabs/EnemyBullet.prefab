@@ -163,7 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   lifetime: 5
-  damage: 10
+  damage: 20
   bulletEffect: {fileID: 6802049951872288063, guid: 4b1bb7d47afdc6e46be5caf761e4bebc, type: 3}
 --- !u!58 &4984912362813633761
 CircleCollider2D:
