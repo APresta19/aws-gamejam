@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SwordAttack : MonoBehaviour
 {
+    public LayerMask whatIsEnemy, whatIsBullet;
     private Animator anim;
     public Transform player;
     private TrailRenderer slashEffect;
@@ -12,7 +13,7 @@ public class SwordAttack : MonoBehaviour
     private float canSwing;
     public float canSwingTime = 0.5f;
     public float swingRadius = 1f;
-    public Vector3 hitPointOffset;
+    public Vector3 hitPointOffset, bulletOffset;
 
     public int swordDamage;
     public float knockbackAmount = 5;
@@ -84,7 +85,8 @@ public class SwordAttack : MonoBehaviour
         anim.SetTrigger("Swing");
 
         // Detect enemies in range at the start of the swing
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position + hitPointOffset, swingRadius);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position + hitPointOffset, swingRadius, whatIsEnemy);
+        Collider2D[] hitBullets = Physics2D.OverlapCircleAll(transform.position + hitPointOffset + bulletOffset, swingRadius * 1.5f, whatIsBullet);
         foreach (Collider2D enemy in hitEnemies)
         {
             if (enemy.CompareTag("Enemy"))
@@ -98,6 +100,20 @@ public class SwordAttack : MonoBehaviour
                 Vector3 knockbackDir = (mousePos - enemy.transform.position).normalized;
                 enemy.GetComponent<EnemyHealth>().Knockback(knockbackDir, knockbackAmount);
 
+            }
+        }
+        foreach (Collider2D bullet in hitBullets)
+        {
+            if (bullet.CompareTag("Bullet"))
+            {
+                //reverse bullet direction
+                bullet.GetComponent<Bullet>().ReverseBullet();
+
+                //change bullet color
+                bullet.GetComponent<SpriteRenderer>().material = bullet.GetComponent<Bullet>().reverseMat;
+
+                Debug.Log(bullet.GetComponent<SpriteRenderer>().material.name.Contains(bullet.GetComponent<Bullet>().reverseMat.name));
+                
             }
         }
 

@@ -5343,7 +5343,7 @@ GameObject:
   - component: {fileID: 3714705383589648285}
   - component: {fileID: -9081241497004934443}
   m_Layer: 9
-  m_Name: Floating Enemy
+  m_Name: Floating Enemy 1
   m_TagString: FloatingEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

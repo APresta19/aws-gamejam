@@ -75,7 +75,7 @@ public class EnemyGroundMovement : MonoBehaviour
         }
 
         // Perform actions based on the current state
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, .2f, whatIsGround);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, .4f, whatIsGround);
         if (isGrounded)
         {
             switch (currentState)
@@ -219,5 +219,6 @@ public class EnemyGroundMovement : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, detectionRange);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.DrawWireSphere(groundCheck.position, .4f);
     }
 }

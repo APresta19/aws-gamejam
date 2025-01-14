@@ -10,7 +10,13 @@ public class Bullet : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 direction;
     public GameObject bulletEffect;
+    public Material reverseMat;
+    private Transform player;
 
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+    }
     public void SetDirection(Vector2 newDirection)
     {
         direction = newDirection.normalized;
@@ -33,5 +39,14 @@ public class Bullet : MonoBehaviour
             Instantiate(bulletEffect, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
+    }
+    public void ReverseBullet()
+    {
+        //get mouse position
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0f;
+
+        //get direction vector
+        direction = (mousePos - player.position).normalized;
     }
 }

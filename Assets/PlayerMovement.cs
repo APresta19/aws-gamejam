@@ -194,6 +194,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void FlipPlayer()
     {
+        sword.GetComponent<SwordAttack>().bulletOffset = -sword.GetComponent<SwordAttack>().bulletOffset;
         facingLeft = !facingLeft;
         float prevX = transform.localScale.x;
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
