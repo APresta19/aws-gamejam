@@ -16,6 +16,7 @@ public class Bullet : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        Destroy(gameObject, 6);
     }
     public void SetDirection(Vector2 newDirection)
     {
