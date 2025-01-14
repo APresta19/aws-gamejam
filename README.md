@@ -31,6 +31,7 @@ Lets quickly mention how we can run the project.
 ## AWS Services used
 
 - Amazon S3: Leveraged Amazon S3 to efficiently manage game assets such as textures, audio files, and animations. This reduced local storage requirements and enhanced scalability by dynamically fetching assets from the S3 bucket.
+- Files were uploaded to Amazon S3
   
 - Amazon QDeveloper : Integrated an AI-powered tool to assist in coding and optimize the development process. This tool enhanced productivity by providing real-time code suggestions, error checks, and improving overall development speed and quality.
 
